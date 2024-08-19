@@ -12,6 +12,7 @@
 #include"cube.hpp"
 #include"camera.hpp"
 #include"plane.hpp"
+#include"terrain.hpp"
 
 class Game{
 public:
@@ -27,12 +28,11 @@ private:
   Camera camera;
   
   Shader cubeShader;
-  Cube cube[2];
+  Cube cube;
   unsigned int cubeTex;
-  //plane
-  Plane plane;
-  Shader planeShader;
-  unsigned int planeTex;
+  //terrain
+  Terrain terrain;
+  Shader terrainShader;
 
   //pos1
   glm::vec3 pos1 = {-1.0f,0.0f,-1.0f};
