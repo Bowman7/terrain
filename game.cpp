@@ -8,20 +8,17 @@ Game::Game(){
   //shader
   cubeShader.Init("cube.vert","cube.frag");
 
-  cube[0].SetID(cubeShader.GetID());
-  cube[1].SetID(cubeShader.GetID());
+  cube.SetID(cubeShader.GetID());
   //translate cube
-  cube[0].MoveCube(pos1);
-  cube[1].MoveCube(pos2);
+  cube.MoveCube(pos1);
   //load tex
   cubeTex = LoadTexture("marble2.jpeg");
 
-  //for plane
-  planeShader.Init("plane.vert","plane.frag");
-
-  plane.SetID(planeShader.GetID());
-
-  planeTex  = LoadTextureA("metal2.png");
+  //load file in terrain
+  terrainShader.Init("terrain.vert","terrain.frag");
+  terrain.SetID(terrainShader.GetID());
+  terrain.LoadTerrain("heightmap.save");
+  terrain.CreateTriangleList();
   
 }
 
@@ -33,10 +30,9 @@ Game::~Game(){
 void Game::Update(glm::vec3 camFront,float fov){
   camera.UpdateCameraFront(camFront,fov);
 
-  cube[0].Update(camera.GetViewMatrix());
-  cube[1].Update(camera.GetViewMatrix());
-  //for plane
-  plane.Update(camera.GetViewMatrix());
+  cube.Update(camera.GetViewMatrix());
+  terrain.Update(camera.GetViewMatrix());
+ 
 }
 
 void Game::HandleInput(int val){
@@ -44,10 +40,9 @@ void Game::HandleInput(int val){
 }
 
 void Game::Draw(){
-  cube[0].Draw(cubeTex);
-  cube[1].Draw(cubeTex);
-  //plane
-  plane.Draw(planeTex);
+  //cube.Draw(cubeTex);
+  terrain.Render();
+
 }
 
 

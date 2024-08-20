@@ -1,0 +1,43 @@
+#include"terrain.hpp"
+
+Terrain::Terrain(){
+
+}
+Terrain::~Terrain(){
+
+}
+
+void Terrain::LoadTerrain(const char* filename){
+  FILE *fptr;
+
+  fptr = fopen(filename,"rb");
+  if(fptr == NULL){
+    printf("Could not open file\n");
+    exit(-1);
+  }
+
+  //find file size
+  fseek(fptr,0,SEEK_END);
+  long size = ftell(fptr);
+  fseek(fptr,0,SEEK_SET);
+
+  float* file = (float*)malloc(size);
+  
+
+  fread(file,1,size,fptr);
+  
+
+  //file after read
+  int numElements =size/sizeof(float);
+
+  for(int i=0;i<numElements;i++){
+    printf(" %f ",file[i]);
+  }
+
+  row = numElements;
+  col = numElements;
+  file_size = size;
+  printf("row: %d col: %d filesize: %ld\n",row,col,file_size);
+  
+  fclose(fptr);
+}

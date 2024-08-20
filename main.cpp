@@ -162,7 +162,8 @@ int main(){
   glDepthFunc(GL_LESS);
   //inside window mousr
   glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-  
+  //wireframe
+  //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
   //MAIN GAME OBJECT
   Game game;
 
@@ -175,7 +176,8 @@ int main(){
     //update
     game.Update(cameraFront,fov);
     //render
-    glClearColor(0.678f,0.847f,0.902f,1.0f);
+    //glClearColor(0.678f,0.847f,0.902f,1.0f);
+    glClearColor(0.0f,0.0f,0.0f,1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
    
     game.Draw();
