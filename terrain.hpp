@@ -42,11 +42,12 @@ private:
     float y;
     float z;
 
-    void InitVertex(float x,float z);
+    void InitVertex(float x, float y,float z);
   };
   int m_width = 0;
   int m_depth = 0;
   unsigned int VAO,VBO,EBO;
   unsigned int ID;
+  float world_scale  = 4.0f;
   
 };

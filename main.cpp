@@ -162,7 +162,8 @@ int main(){
   glDepthFunc(GL_LESS);
   //inside window mousr
   glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-  
+  //wireframe
+  //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
   //MAIN GAME OBJECT
   Game game;
 
