@@ -14,11 +14,16 @@ Game::Game(){
   //load tex
   cubeTex = LoadTexture("marble2.jpeg");
 
+
+  //for fault in formation
+  fault_formation.CreateFaultFormation(257,500,0.0f,100.0f);
+  
   //load file in terrain
   terrainShader.Init("terrain.vert","terrain.frag");
   terrain.SetID(terrainShader.GetID());
-  terrain.LoadTerrain("heightmap.save");
+  terrain.LoadTerrain("height2.save");
   terrain.CreateTriangleList();
+  
   
 }
 

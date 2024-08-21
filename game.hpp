@@ -13,6 +13,7 @@
 #include"camera.hpp"
 #include"plane.hpp"
 #include"terrain.hpp"
+#include"faultformation.hpp"
 
 class Game{
 public:
@@ -34,6 +35,7 @@ private:
   Terrain terrain;
   Shader terrainShader;
 
+  FaultFormation fault_formation;
   //pos1
   glm::vec3 pos1 = {-1.0f,0.0f,-1.0f};
   glm::vec3 pos2 = {2.0f,0.0f,0.0f};

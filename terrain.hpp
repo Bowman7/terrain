@@ -31,6 +31,10 @@ public:
   {
     glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, GL_FALSE, &mat[0][0]);
   }
+  void setFloat(const std::string &name, float value,unsigned int ID) const
+  { 
+    glUniform1f(glGetUniformLocation(ID, name.c_str()), value); 
+  }
 private:
   glm::mat4 lookMat;
   int row,col;
