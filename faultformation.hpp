@@ -23,7 +23,7 @@ public:
     return file[ind];
   }
   void SetVal(int x,int z,float val){
-    int index = GetIndex(x,z);
+    int index = z*247 + x;
     file[index] = val;
   }
   void Normalize(float,float);

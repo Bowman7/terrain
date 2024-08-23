@@ -13,13 +13,15 @@ void FaultFormation::CreateFaultFormation(int TerrainSize,int Iterations,
   //create internal fault formation
   CreateFaultFormationInternal(Iterations,MinHeight,MaxHeight);
   //normalize in file
-  Normalize(MinHeight,MaxHeight);
+  //Normalize(MinHeight,MaxHeight);
+  /*
   //now print all this
   for(int z=0;z<247;z++){
     for(int x = 0;x<247;x++){
       printf(" %f ",file[x]);
     }
   }
+  */
   //save this in a file
   FILE *fptr;
   fptr = fopen("height2.save","wb");
@@ -67,6 +69,12 @@ void FaultFormation::Normalize(float MinHeight,float MaxHeight){
   for(int i=0;i<247*247;i++){
     file[i] = ((file[i]-Min)/MinMaxDelta)*MinMaxRange+MinHeight;
   }
+  //after normalize
+  for(int z=0;z<247;z++){
+    for(int x = 0;x<247;x++){
+      printf(" %f ",file[x]);
+    }
+  }
 }
 //internal fault
 void FaultFormation::CreateFaultFormationInternal(int Iterations,
@@ -99,7 +107,14 @@ void FaultFormation::CreateFaultFormationInternal(int Iterations,
       }
     }
   }
- 
+  /*
+  //print after fault formation;
+  for(int z=0;z<247;z++){
+    for(int x = 0;x<247;x++){
+      printf(" %f ",file[x]);
+    }
+  }
+  */
   
 }
 //generate random terrain points
