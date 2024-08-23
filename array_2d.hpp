@@ -6,7 +6,7 @@
 #include<stdlib.h>
 
 //temp init
-template<typename T>
+template<typename Type>
 
 class Array2D{
 public:
@@ -63,7 +63,7 @@ public:
 
   //get value at certain add
   Type* GetAddr(int Col,int Row) const {
-    size_t Index = ClacIndex(Col,Row);
+    size_t Index = CalcIndex(Col,Row);
 
     return &ptr[Index];
   }
@@ -83,7 +83,7 @@ public:
     return GetSize()*sizeof(Type);
   }
   //direct referenc to data
-  const Type& Get(int Col,int Row){
+  const Type& Get(int Col,int Row) const {
     return *GetAddr(Col,Row);
   }
 
@@ -150,7 +150,7 @@ public:
 
   //print floats
   void PrintFloat(){
-    for(int y =0;i<rows;y++){
+    for(int y =0;y<rows;y++){
       printf("%d: ",y);
       for(int x = 0;x<cols;x++){
 	float f = (float)ptr[y*rows+x];
@@ -161,7 +161,7 @@ public:
   }
 private:
   //calculate index
-  size_t CalcIndex(int Col,int Row){
+  size_t CalcIndex(int Col,int Row) const {
     if(Col < 0){
       printf("Col is less than 0\n");
     }
