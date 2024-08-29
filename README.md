@@ -13,3 +13,6 @@ Terrain generation in openGL wip
 
 # increase the terrain a bit
 ![Screenshot from 2024-08-20 12-30-59](https://github.com/user-attachments/assets/0fabface-39b6-49c1-b8a8-ccf322bb6180)
+
+# fault formation
+![Screenshot from 2024-08-29 12-03-27](https://github.com/user-attachments/assets/6ae51651-592d-4593-8142-f8339763cfbf)
