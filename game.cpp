@@ -16,12 +16,14 @@ Game::Game(){
 
   //terrain
   terrainShader.Init("terrain.vert","terrain.frag");
-  baseTerrain.SetID(terrainShader.GetID());
+  faultFormation.SetID(terrainShader.GetID());
   
-  baseTerrain.LoadFromFile("heightmap.save");
-
+  int Size = 256;
+  int Iterations = 500;
+  float MinHeight = 0.0f;
+  float MaxHeight = 300.0f;
   
-  
+  faultFormation.CreateFaultFormation(Size,Iterations,MinHeight,MaxHeight); 
   
 }
 
@@ -34,7 +36,7 @@ void Game::Update(glm::vec3 camFront,float fov){
   camera.UpdateCameraFront(camFront,fov);
 
   cube.Update(camera.GetViewMatrix());
-  baseTerrain.Update(camera.GetViewMatrix());
+  faultFormation.Update(camera.GetViewMatrix());
 }
 
 void Game::HandleInput(int val){
@@ -43,7 +45,7 @@ void Game::HandleInput(int val){
 
 void Game::Draw(){
   //cube.Draw(cubeTex);
-  baseTerrain.Render();
+  faultFormation.Render();
 }
 
 

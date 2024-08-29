@@ -13,6 +13,7 @@
 #include"camera.hpp"
 #include"plane.hpp"
 #include"baseTerrain.hpp"
+#include"faultFormation.hpp"
 
 class Game{
 public:
@@ -28,7 +29,8 @@ public:
 private:
   Camera camera;
   //terrain 
-  BaseTerrain baseTerrain;
+  //BaseTerrain baseTerrain;
+  FaultFormation faultFormation;
   Shader terrainShader;
   
   Shader cubeShader;

@@ -28,8 +28,10 @@ public:
   float GetHeight(int x,int z) const {
     return heightMap.Get(x,z);
   }
-private:
+protected:
   int terrainSize = 0;
+  float minHeight = 0.0f;
+  float maxHeight = 0.0f;
   Array2D<float> heightMap;
   TriangleList triangleList;
 };

@@ -106,7 +106,10 @@ void TriangleList::Render(){
   setMat4("model",model,ID);
   setMat4("projection",projection,ID);
   setMat4("view",view,ID);
-  
+
+  //set min max
+  setFloat("minHeight",0.0f,ID);
+  setFloat("maxHeight",300.0f,ID);
   glBindVertexArray(VAO);
 
   //glDrawArrays(GL_POINTS,0,depth*width);
