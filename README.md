@@ -16,3 +16,6 @@ Terrain generation in openGL wip
 
 # fault formation
 ![Screenshot from 2024-08-29 12-03-27](https://github.com/user-attachments/assets/6ae51651-592d-4593-8142-f8339763cfbf)
+# added imgui
+![Screenshot from 2024-09-03 12-22-20](https://github.com/user-attachments/assets/a7940ece-4b7b-402b-8a98-2e867c7e547a)
+![Screenshot from 2024-09-03 12-22-02](https://github.com/user-attachments/assets/ba9c1e71-3010-4d01-b147-4ed336bc1aab)
