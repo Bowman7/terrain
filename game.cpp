@@ -22,8 +22,9 @@ Game::Game(){
   int Iterations = 500;
   float MinHeight = 0.0f;
   float MaxHeight = 300.0f;
+  float filter = 0.5f;
   
-  faultFormation.CreateFaultFormation(Size,Iterations,MinHeight,MaxHeight); 
+  faultFormation.CreateFaultFormation(Size,Iterations,MinHeight,MaxHeight,filter); 
   
 }
 

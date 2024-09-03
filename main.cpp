@@ -8,6 +8,9 @@
 #include"glm/gtc/matrix_transform.hpp"
 #include"glm/gtc/type_ptr.hpp"
 
+#include"imgui/imgui.h"
+#include"backends/imgui_impl_glfw.h"
+#include"backends/imgui_impl_opengl3.h"
 
 #define WIDTH 1920
 #define HEIGHT 1080
@@ -137,6 +140,7 @@ int main(){
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR,3);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR,3);
   glfwWindowHint(GLFW_OPENGL_PROFILE,GLFW_OPENGL_CORE_PROFILE);
+  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); 
 
   //window
   GLFWwindow* window = glfwCreateWindow(WIDTH,HEIGHT,"hello window",NULL,NULL);
@@ -144,13 +148,38 @@ int main(){
     std::cout<<"Failed to create GLFW window"<<std::endl;
     glfwTerminate();
   }
-
+  glfwSwapInterval(1);
   //callbacks
   glfwMakeContextCurrent(window);
   glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
   glfwSetCursorPosCallback(window,mouse_callback);
   glfwSetScrollCallback(window, scroll_callback);
   glfwSetKeyCallback(window,myKeyCallbackFunc);
+
+  //init imgui context
+  IMGUI_CHECKVERSION();
+  ImGui::CreateContext();
+  ImGuiIO& io = ImGui::GetIO();(void)io;
+  io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+  io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
+
+  //set style
+  ImGui::StyleColorsDark();
+
+  //setup backends
+  
+  ImGui_ImplGlfw_InitForOpenGL(window,true);
+
+  const char* glsl_version = "#version 330 core";
+  ImGui_ImplOpenGL3_Init(glsl_version);
+
+  //state
+  bool show_demo_window = true;
+  bool show_another_window = false;
+  ImVec4 clear_color = ImVec4(0.45f,0.55f,0.60f,1.0f);
+  
+  
+  
   //load glad
   if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){
     std::cout<<"Failed to initialize GLAD"<<std::endl;
@@ -161,7 +190,7 @@ int main(){
   //glDepthFunc(GL_ALWAYS);
   glDepthFunc(GL_LESS);
   //inside window mousr
-  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+  //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
   //wireframe
   //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
   //MAIN GAME OBJECT
@@ -170,24 +199,80 @@ int main(){
   //MAIN LOOP
   while(!glfwWindowShouldClose(window)){
 
+    glfwPollEvents();
+    //check if window is minimized
+    if(glfwGetWindowAttrib(window,GLFW_ICONIFIED) != 0){
+      ImGui_ImplGlfw_Sleep(10);
+      continue;
+    }
+    //start imgui frame
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplGlfw_NewFrame();
+    ImGui::NewFrame();
+    //set val of demo window
+    if(show_demo_window){
+      ImGui::ShowDemoWindow(&show_demo_window);
+    }
+    //place inside brackets to just code organization,code limitation
+    {
+      static float f = 0.0f;
+      static int counter = 0;
+
+      ImGui::Begin("Helloworld box");
+      ImGui::Text("Some random text");
+      ImGui::Checkbox("DEmo window",&show_demo_window);
+      ImGui::Checkbox("DEmo another window",&show_another_window);
+
+      ImGui::SliderFloat("float",&f,0.0f,1.0f);
+      ImGui::ColorEdit3("clear col",(float*)&clear_color);
+
+      if(ImGui::Button("Button")){
+	counter++;
+      }
+      ImGui::SameLine();
+      ImGui::Text("counter = %d",counter);
+
+      ImGui::Text("App avg %.3f ms/frame (%.1f FPS)",1000.0f/io.Framerate,io.Framerate);
+      ImGui::End();
+    }
+    //show another asample window
+    if(show_another_window){
+      ImGui::Begin("Another window",&show_another_window);
+      ImGui::Text("Hello from another window");
+      if(ImGui::Button("close me")){
+	show_another_window = false;
+      }
+      ImGui::End();
+    }
+    
     //handle input
     game.HandleInput(processInput(window));
     
     //update
     game.Update(cameraFront,fov);
+
+    //render rimgui as well
+    ImGui::Render();
+    
     //render
     //glClearColor(0.678f,0.847f,0.902f,1.0f);
     glClearColor(0.0f,0.0f,0.0f,1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-   
+
+    //render gui
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     game.Draw();
     
     
     glfwSwapBuffers(window);
-    glfwPollEvents();
+
   }
 
 
+  // Cleanup
+  ImGui_ImplOpenGL3_Shutdown();
+  ImGui_ImplGlfw_Shutdown();
+  ImGui::DestroyContext();
   glfwTerminate();
   return 0;
   

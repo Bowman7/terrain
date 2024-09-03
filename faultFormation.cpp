@@ -2,26 +2,66 @@
 
 
 void FaultFormation::CreateFaultFormation(int TerrainSize,int Iterations,
-					  float MinHeight,float MaxHeight){
+					  float MinHeight,float MaxHeight,float filter){
   terrainSize = TerrainSize;
   minHeight = MinHeight;
   maxHeight = MaxHeight;
 
   heightMap.InitArray2D(terrainSize,terrainSize,0.0f);
 
-  CreateFaultFormationInternal(Iterations,MinHeight,MaxHeight);
+  CreateFaultFormationInternal(Iterations,MinHeight,MaxHeight,filter);
 
   heightMap.Normalize(MinHeight,MaxHeight);
   
   triangleList.CreateTriangleList(terrainSize,terrainSize,this);
-  
-  
+
 }
 
+//apply fir filter
+void FaultFormation::ApplyFIRFilter(float filter){
+  //left to right
+  for(int z =0;z<terrainSize;z++){
+    float PrevVal = heightMap.Get(0,z);
+    for(int x=1;x<terrainSize;x++){
+      PrevVal = FIRFilterSinglePoint(x,z,PrevVal,filter);
+    }
+  }
+  
+  //right to left
+  for(int z =0;z<terrainSize;z++){
+    float PrevVal = heightMap.Get(terrainSize-1,z);
+    for(int x=terrainSize-2;x>=0;x--){
+      PrevVal = FIRFilterSinglePoint(x,z,PrevVal,filter);
+    }
+  }
 
+  // bottom to top
+  for(int x=0;x<terrainSize;x++){
+    float PrevVal = heightMap.Get(x,0);
+    for(int z =1;z<terrainSize;z++){
+      PrevVal = FIRFilterSinglePoint(x,z,PrevVal,filter);
+    }
+  }
+
+  //top to bottom
+  for(int x=0;x<terrainSize;x++){
+    float PrevVal = heightMap.Get(x,terrainSize-1);
+    for(int z =terrainSize-2;z>=0;z--){
+      PrevVal = FIRFilterSinglePoint(x,z,PrevVal,filter);
+    }
+  }
+  
+}
+//single point fir filter
+float FaultFormation::FIRFilterSinglePoint(int x,int z, float PrevVal,float filter){
+  float curVal = heightMap.Get(x,z);
+  float newVal = filter * PrevVal +(1-filter) * curVal;
+  heightMap.Set(x,z,newVal);
+  return newVal;
+}
 //internal fault
 void FaultFormation::CreateFaultFormationInternal(int Iterations,
-						  float MinHeight,float MaxHeight){
+						  float MinHeight,float MaxHeight,float filter){
 
   float DeltaHeight = MaxHeight - MinHeight;
 
@@ -50,6 +90,11 @@ void FaultFormation::CreateFaultFormationInternal(int Iterations,
       }
     }
   }
+
+  
+  //apply fir filter
+  ApplyFIRFilter(filter);
+  
   /*
   //print after fault formation;
   for(int z=0;z<247;z++){

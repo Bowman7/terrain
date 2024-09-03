@@ -29,9 +29,10 @@ void TriangleList::CreateTriangleList(int Width,int Depth,const BaseTerrain *Ter
 //init vertex
 void TriangleList::Vertex::InitVertex(const BaseTerrain* Terrain,int x,int z){
   float y = Terrain->GetHeight(x,z);
-  this->x = x;
+  float worldScale = 4.0f;
+  this->x = x * worldScale;
   this->y = y;
-  this->z = z; 
+  this->z = z * worldScale; 
   
 }
 //init vertices

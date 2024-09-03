@@ -17,7 +17,7 @@ public:
   FaultFormation(){}
   ~FaultFormation(){}
 
-  void CreateFaultFormation(int TerrainSize,int Iterations,float MinHeight,float MaxHeight);
+  void CreateFaultFormation(int TerrainSize,int Iterations,float MinHeight,float MaxHeight,float);
  
   
 private:
@@ -35,7 +35,9 @@ private:
     }
   };
 
-  void CreateFaultFormationInternal(int,float,float);
+  void ApplyFIRFilter(float);
+  float FIRFilterSinglePoint(int x,int z, float PrevVal,float filter);
+  void CreateFaultFormationInternal(int,float,float,float);
   void GenRandomTerrainPoints(TerrainPoint&,TerrainPoint&);
   
 };
