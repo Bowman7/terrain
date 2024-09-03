@@ -12,7 +12,8 @@
 #include"cube.hpp"
 #include"camera.hpp"
 #include"plane.hpp"
-#include"terrain.hpp"
+#include"baseTerrain.hpp"
+#include"faultFormation.hpp"
 
 class Game{
 public:
@@ -24,15 +25,17 @@ public:
   unsigned int LoadTexture(const char*);
   unsigned int LoadTextureA(const char*);
 
+
 private:
   Camera camera;
+  //terrain 
+  //BaseTerrain baseTerrain;
+  FaultFormation faultFormation;
+  Shader terrainShader;
   
   Shader cubeShader;
   Cube cube;
   unsigned int cubeTex;
-  //terrain
-  Terrain terrain;
-  Shader terrainShader;
 
   //pos1
   glm::vec3 pos1 = {-1.0f,0.0f,-1.0f};

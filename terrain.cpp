@@ -132,6 +132,7 @@ void Terrain::Vertex::InitVertex(float x,float y, float z){
 //render
 void Terrain::Render(){
   glUseProgram(ID);
+
   
   glm::mat4 model = glm::mat4(1.0f);
   model = glm::scale(model,glm::vec3(0.01f));
@@ -142,7 +143,12 @@ void Terrain::Render(){
   setMat4("model",model,ID);
   setMat4("projection",projection,ID);
   setMat4("view",view,ID);
-  
+
+  //set heights
+  float MinHeight = 0.0f;
+  float MaxHeight = 100.0f;
+  setFloat("gMinHeight",MinHeight,ID);
+  setFloat("gMaxHeight",MaxHeight,ID);
   glBindVertexArray(VAO);
 
   //glDrawArrays(GL_POINTS,0,m_depth*m_width);

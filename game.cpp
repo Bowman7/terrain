@@ -14,11 +14,17 @@ Game::Game(){
   //load tex
   cubeTex = LoadTexture("marble2.jpeg");
 
-  //load file in terrain
+  //terrain
   terrainShader.Init("terrain.vert","terrain.frag");
-  terrain.SetID(terrainShader.GetID());
-  terrain.LoadTerrain("heightmap.save");
-  terrain.CreateTriangleList();
+  faultFormation.SetID(terrainShader.GetID());
+  
+  int Size = 256;
+  int Iterations = 500;
+  float MinHeight = 0.0f;
+  float MaxHeight = 300.0f;
+  float filter = 0.5f;
+  
+  faultFormation.CreateFaultFormation(Size,Iterations,MinHeight,MaxHeight,filter); 
   
 }
 
@@ -31,8 +37,7 @@ void Game::Update(glm::vec3 camFront,float fov){
   camera.UpdateCameraFront(camFront,fov);
 
   cube.Update(camera.GetViewMatrix());
-  terrain.Update(camera.GetViewMatrix());
- 
+  faultFormation.Update(camera.GetViewMatrix());
 }
 
 void Game::HandleInput(int val){
@@ -41,8 +46,7 @@ void Game::HandleInput(int val){
 
 void Game::Draw(){
   //cube.Draw(cubeTex);
-  terrain.Render();
-
+  faultFormation.Render();
 }
 
 

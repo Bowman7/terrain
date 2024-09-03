@@ -6,10 +6,16 @@ uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 
-out vec4 Color;
+uniform float minHeight;
+uniform float maxHeight;
 
+out vec4 Color;
 void main(){
      gl_Position = projection * view * model * vec4(aPos,1.0f);
-     Color = vec4(aPos.y/200.0f);
-     
+
+     float deltaHeight = maxHeight-minHeight;
+     float heightRatio = (aPos.y - minHeight)/deltaHeight;
+
+     float c = heightRatio * 0.8 +0.2;
+     Color = vec4(c,c,c,1.0f);
 }
