@@ -16,15 +16,10 @@ Game::Game(){
 
   //terrain
   terrainShader.Init("terrain.vert","terrain.frag");
-  faultFormation.SetID(terrainShader.GetID());
+  midpoint.SetID(terrainShader.GetID());
   
-  int Size = 256;
-  int Iterations = 500;
-  float MinHeight = 0.0f;
-  float MaxHeight = 300.0f;
-  float filter = 0.5f;
   
-  faultFormation.CreateFaultFormation(Size,Iterations,MinHeight,MaxHeight,filter); 
+  midpoint.CreateMidpointDisplacement(Size,MinHeight,MaxHeight,0.5f); 
   
 }
 
@@ -33,11 +28,22 @@ Game::~Game(){
 }
 
 
-void Game::Update(glm::vec3 camFront,float fov){
+void Game::Update(glm::vec3 camFront,float fov,float filter){
+  //update and create again
+  if(this->filter != filter){
+    newFilter = true;
+    this->filter = filter;
+  }
+  if(newFilter){
+    midpoint.CreateMidpointDisplacement(Size,MinHeight,MaxHeight,0.5f);
+    newFilter = false;
+  }
+  
   camera.UpdateCameraFront(camFront,fov);
 
   cube.Update(camera.GetViewMatrix());
-  faultFormation.Update(camera.GetViewMatrix());
+  //faultFormation.Update(camera.GetViewMatrix());
+  midpoint.Update(camera.GetViewMatrix());
 }
 
 void Game::HandleInput(int val){
@@ -46,7 +52,8 @@ void Game::HandleInput(int val){
 
 void Game::Draw(){
   //cube.Draw(cubeTex);
-  faultFormation.Render();
+  //faultFormation.Render();
+  midpoint.Render();
 }
 
 

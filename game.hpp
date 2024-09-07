@@ -14,12 +14,13 @@
 #include"plane.hpp"
 #include"baseTerrain.hpp"
 #include"faultFormation.hpp"
+#include"midpoint.hpp"
 
 class Game{
 public:
   Game();
   ~Game();
-  void Update(glm::vec3,float);
+  void Update(glm::vec3,float,float);
   void HandleInput(int);
   void Draw();
   unsigned int LoadTexture(const char*);
@@ -30,7 +31,8 @@ private:
   Camera camera;
   //terrain 
   //BaseTerrain baseTerrain;
-  FaultFormation faultFormation;
+  //FaultFormation faultFormation;
+  Midpoint midpoint;
   Shader terrainShader;
   
   Shader cubeShader;
@@ -40,4 +42,12 @@ private:
   //pos1
   glm::vec3 pos1 = {-1.0f,0.0f,-1.0f};
   glm::vec3 pos2 = {2.0f,0.0f,0.0f};
+  //for fault fomration
+  float filter = 0.0f;
+  
+  int Size = 256;
+  int Iterations = 500;
+  float MinHeight = 0.0f;
+  float MaxHeight = 300.0f;
+  bool newFilter = false;
 };

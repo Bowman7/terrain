@@ -190,12 +190,13 @@ int main(){
   //glDepthFunc(GL_ALWAYS);
   glDepthFunc(GL_LESS);
   //inside window mousr
-  //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
   //wireframe
   //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
   //MAIN GAME OBJECT
   Game game;
 
+  static float filter = 0.5f;
   //MAIN LOOP
   while(!glfwWindowShouldClose(window)){
 
@@ -214,27 +215,25 @@ int main(){
       ImGui::ShowDemoWindow(&show_demo_window);
     }
     //place inside brackets to just code organization,code limitation
-    {
-      static float f = 0.0f;
-      static int counter = 0;
-
-      ImGui::Begin("Helloworld box");
-      ImGui::Text("Some random text");
-      ImGui::Checkbox("DEmo window",&show_demo_window);
-      ImGui::Checkbox("DEmo another window",&show_another_window);
-
-      ImGui::SliderFloat("float",&f,0.0f,1.0f);
-      ImGui::ColorEdit3("clear col",(float*)&clear_color);
-
-      if(ImGui::Button("Button")){
-	counter++;
-      }
-      ImGui::SameLine();
-      ImGui::Text("counter = %d",counter);
-
-      ImGui::Text("App avg %.3f ms/frame (%.1f FPS)",1000.0f/io.Framerate,io.Framerate);
-      ImGui::End();
+    static int counter = 0;
+    
+    ImGui::Begin("Helloworld box");
+    ImGui::Text("Some random text");
+    ImGui::Checkbox("DEmo window",&show_demo_window);
+    ImGui::Checkbox("DEmo another window",&show_another_window);
+    
+    ImGui::SliderFloat("float",&filter,0.0f,1.0f);
+    ImGui::ColorEdit3("clear col",(float*)&clear_color);
+    
+    if(ImGui::Button("Button")){
+      counter++;
     }
+    ImGui::SameLine();
+    ImGui::Text("counter = %d",counter);
+    
+    ImGui::Text("App avg %.3f ms/frame (%.1f FPS)",1000.0f/io.Framerate,io.Framerate);
+    ImGui::End();
+
     //show another asample window
     if(show_another_window){
       ImGui::Begin("Another window",&show_another_window);
@@ -247,9 +246,10 @@ int main(){
     
     //handle input
     game.HandleInput(processInput(window));
-    
+
+    //std::cout<<"filter val before up: "<<filter<<std::endl;
     //update
-    game.Update(cameraFront,fov);
+    game.Update(cameraFront,fov,filter);
 
     //render rimgui as well
     ImGui::Render();
